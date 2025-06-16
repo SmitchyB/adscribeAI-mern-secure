@@ -1,13 +1,13 @@
-AdScribe.AI - MERN (Vulnerable Version)
-This repository contains the MERN stack version of the AdScribe.AI application. This version is intentionally vulnerable and serves as a test case for a university research project evaluating the effectiveness of secure coding practices and SAST (Static Analysis Security Testing) tools.
+AdScribe.AI - MERN (Secure Version)
+This repository contains the MERN stack version of the AdScribe.AI application. This version has been refactored to be secure and serves as a test case for a university research project evaluating the effectiveness of secure coding practices and SAST (Static Analysis Security Testing) tools.
 
 Application Purpose
 AdScribe.AI is a simple marketing tool that uses the OpenAI API to generate compelling product descriptions based on a product name and user-provided keywords.
 
-Research Context: The Vulnerability
-The primary purpose of this repository is to demonstrate an unsecure but common coding practice: hardcoded secrets.
+Research Context: The Security Fix
+The purpose of this repository is to demonstrate the correct, secure method for handling secrets in a Node.js application.
 
-In this application, the OPENAI_API_KEY is written directly into the backend source code (backend/server.js). This is a significant security risk because it exposes the secret to anyone with access to the codebase and makes it visible in the version control history. This build is used to test whether security scanning tools can successfully detect this type of vulnerability.
+The vulnerability present in the "unsecure" version (a hardcoded API key) has been mitigated by using environment variables. The secret key is now loaded from a .env file at runtime and is never exposed in the source code. The .env file is explicitly ignored by .gitignore to prevent it from ever being committed to version control. This build is used to verify that security scanning tools no longer detect the hardcoded secret vulnerability.
 
 How to Run This Application
 This is a standard MERN stack application with a React frontend and a Node.js/Express backend.
@@ -22,13 +22,15 @@ Clone the repository:
 
 git clone <repository-url>
 
-Set the API Key:
+Create the .env file:
 
 Navigate to the backend/ directory.
 
-Open the server.js file.
+Create a new file and name it exactly .env.
 
-Find the line const OPENAI_API_KEY = 'YOUR_OPENAI_API_KEY_HERE'; and replace the placeholder with your actual OpenAI API key.
+Inside the .env file, add the following line, replacing the placeholder with your actual OpenAI API key:
+
+OPENAI_API_KEY='sk-YourActualKeyHere'
 
 Install Dependencies:
 
