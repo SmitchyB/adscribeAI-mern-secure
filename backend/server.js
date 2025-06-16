@@ -36,6 +36,7 @@ app.post('/api/generate', async (req, res) => {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
+        // --- (CHANGE 3) USE THE ENVIRONMENT VARIABLE IN THE HEADER ---
         // The hardcoded key is used in the authorization header
         'Authorization': `Bearer ${OPENAI_API_KEY}` 
       },
