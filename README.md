@@ -1,5 +1,5 @@
-AdScribe.AI - MERN (Secure Version)
-This repository contains the MERN stack version of the AdScribe.AI application. This version has been refactored to be secure and serves as a test case for a university research project evaluating the effectiveness of secure coding practices and SAST (Static Analysis Security Testing) tools.
+AdScribe.AI - NODE.JS/React (Secure Version)
+This repository contains the NODE.JS/React stack version of the AdScribe.AI application. This version has been refactored to be secure and serves as a test case for a university research project evaluating the effectiveness of secure coding practices and SAST (Static Analysis Security Testing) tools.
 
 Application Purpose
 AdScribe.AI is a simple marketing tool that uses the OpenAI API to generate compelling product descriptions based on a product name and user-provided keywords.
@@ -10,7 +10,7 @@ The purpose of this repository is to demonstrate the correct, secure method for 
 The vulnerability present in the "unsecure" version (a hardcoded API key) has been mitigated by using environment variables. The secret key is now loaded from a .env file at runtime and is never exposed in the source code. The .env file is explicitly ignored by .gitignore to prevent it from ever being committed to version control. This build is used to verify that security scanning tools no longer detect the hardcoded secret vulnerability.
 
 How to Run This Application
-This is a standard MERN stack application with a React frontend and a Node.js/Express backend.
+This is a standard NODE.JS/React stack application with a React frontend and a Node.js/Express backend.
 
 Prerequisites
 Node.js and npm installed.
