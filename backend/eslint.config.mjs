@@ -1,7 +1,7 @@
 import js from "@eslint/js";
 import globals from "globals";
 import { defineConfig } from "eslint/config";
-import security from "eslint-plugin-security"; // <-- Make sure this line is here
+import noSecrets from "eslint-plugin-no-secrets"; 
 
 export default defineConfig([
   { 
@@ -9,28 +9,41 @@ export default defineConfig([
     plugins: { js }, 
     extends: [js.configs.recommended] 
   },
-  // This part ensures CommonJS modules are handled correctly
   { 
     files: ["**/*.js"], 
     languageOptions: { sourceType: "commonjs" } 
   },
-  // This part provides Node.js globals like 'require', 'module', 'process'
   { 
     files: ["**/*.{js,mjs,cjs}"], 
     languageOptions: { globals: globals.node } 
   },
-  // --- ADD THIS BLOCK FOR SECURITY PLUGIN ---
   {
-    files: ["**/*.js", "**/*.mjs", "**/*.cjs"], // Apply to all relevant JS files
+    files: ["**/*.js", "**/*.mjs", "**/*.cjs"],
     plugins: {
-      security, // Register the security plugin
+      "no-secrets": noSecrets,
     },
     rules: {
-      ...security.configs.recommended.rules, // Apply the recommended security rules
-      // You can also add specific rules here if you want to be extra sure, like:
-      // "security/detect-unsafe-regex": "error", // Good for testing, but might be too broad for prod
-      // "security/detect-non-literal-require": "error" // This is a good one for secrets
+      "no-secrets/no-secrets": [
+        "error", // Set it to error
+        {
+          "ignoreContent": "", // Not ignoring anything specific here
+          "tolerance": 5.0, // Lower the entropy tolerance (default is higher, like 4.0 or more) - smaller number = more aggressive
+          "maxEntropy": 10.0, // Max entropy, usually fine as default
+          "trim": true, // Trim whitespace
+          // You can also add custom regex patterns to look for.
+          // For a simple test, let's explicitly look for 'sk-' followed by letters/numbers.
+          "ignorePatterns": [
+             "^(sk-|SG\\.)$" // This would ignore actual API key prefixes, we want to detect them
+          ],
+          "customDetectors": [
+            {
+              "type": "string",
+              "pattern": "sk-[a-zA-Z0-9]{32,}", // Detect 'sk-' followed by at least 32 alphanumeric chars
+              "message": "Potential hardcoded API key found (custom regex)"
+            }
+          ]
+        }
+      ]
     },
   },
-  // --- END OF SECURITY BLOCK ---
 ]);
